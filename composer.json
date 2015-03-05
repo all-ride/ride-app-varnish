@@ -1,0 +1,22 @@
+{
+    "name": "ride/app-varnish",
+    "description": "Integration of a Varnish server with a Ride application.",
+    "license": "MIT",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Joris Vandeweerd",
+            "email": "joris@statik.be"
+        }
+    ],
+    "require": {
+        "ride/app": ">=0.4.0",
+        "ride/config": ">=0.2.5",
+        "ride/lib-varnish": ">=0.2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ride\\application\\varnish\\": ["src/"]
+        }
+    }
+}
