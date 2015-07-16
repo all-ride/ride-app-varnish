@@ -2,8 +2,8 @@
     "dependencies": [
         {
             "interfaces": ["ride\\library\\varnish\\VarnishServer", "ride\\library\\varnish\\VarnishPool", "ride\\application\\varnish\\ParamVarnishPool"],
-            "class": "ride\\application\\varnish\\ParamVarnishPool",
-            "id": "pool"
+            "class": "ride\\application\\varnish\\ParameterVarnishPool",
+            "id": "parameter"
         }
     ]
 }

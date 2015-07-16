@@ -3,6 +3,7 @@
 namespace ride\application\varnish;
 
 use ride\library\config\Config;
+use ride\library\log\Log;
 use ride\library\varnish\VarnishAdmin;
 use ride\library\varnish\VarnishPool;
 use ride\library\varnish\VarnishServer;
@@ -10,31 +11,40 @@ use ride\library\varnish\VarnishServer;
 /**
  * Varnish pool with the Ride parameters as backend
  */
-class ParamVarnishPool extends VarnishPool {
+class ParameterVarnishPool extends VarnishPool {
 
     /**
      * Instance of the configuration
-     * @param \ride\library\config\Config
+     * @var \ride\library\config\Config
      */
     protected $config;
 
     /**
+     * Prefix for the parameter keys
+     * @var string
+     */
+    protected $prefix;
+
+    /**
      * Constructs a new instance
-     * @param \ride\library\config\Config $config
+     * @param \ride\library\config\Config $config Instance of the config
+     * @param \ride\library\log\Log $log Instance of the log
+     * @param string $prefix Prefix for the parameter keys
      * @return null
      */
-    public function __construct(Config $config, $prefix = 'varnish.pool') {
+    public function __construct(Config $config, Log $log, $prefix = 'varnish.pool') {
         $this->config = $config;
         $this->prefix = $prefix;
 
-        $this->readServers();
+        $this->readServers($log);
     }
 
     /**
      * Reads the servers from the parameters
+     * @param \ride\library\log\Log $log Instance of the log
      * @return null
      */
-    protected function readServers() {
+    protected function readServers(Log $log) {
         $pool = $this->config->get($this->prefix);
         if (!$pool) {
             return;
@@ -50,6 +60,7 @@ class ParamVarnishPool extends VarnishPool {
             $secret = isset($struct['secret']) ? $struct['secret'] : null;
 
             $server = new VarnishAdmin($host, $port, $secret);
+            $server->setLog($log);
 
             parent::addServer($server);
         }
